@@ -1,0 +1,32 @@
+// JavaScript to handle user login
+
+// Get form element
+const loginForm = document.querySelector('#login-form');
+
+// Add event listener to form
+loginForm.addEventListener('submit', event => {
+  event.preventDefault();
+
+  // Get user input
+  const email = loginForm.querySelector('#email').value;
+  const password = loginForm.querySelector('#password').value;
+
+  // Send login request to server (replace with your own code)
+  fetch('/login', {
+    method: 'POST',
+    body: JSON.stringify({ email, password }),
+    headers: { 'Content-Type': 'application/json' }
+  })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success) {
+        // Login successful, redirect to games page
+        window.location.href = '/games';
+      } else {
+        // Show error message
+        const errorMessage = document.querySelector('#error-message');
+        errorMessage.innerHTML = data.message;
+        errorMessage.style.display = 'block';
+      }
+    });
+});
